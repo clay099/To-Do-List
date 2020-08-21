@@ -5,7 +5,6 @@ import ToDo from "./ToDo";
 const ToDoList = () => {
 	const [toDoList, setToDoList] = useState([]);
 
-	console.log("general todolist", toDoList);
 	const addToDo = (newToDo) => {
 		setToDoList((toDoList) => [...toDoList, newToDo]);
 	};
@@ -16,13 +15,26 @@ const ToDoList = () => {
 		});
 	};
 
+	const editTodo = (task, updatedTask) => {
+		setToDoList((listOfTodos) => {
+			return listOfTodos.map((todo) => {
+				if (todo.task === task) {
+					todo.task = updatedTask;
+				}
+				return todo;
+			});
+		});
+	};
+
 	return (
 		<>
 			<h1>To Do List</h1>
 			<NewToDoForm addToDo={addToDo} />
 			<div>
 				{toDoList.map(({ task }) => {
-					return <ToDo key={task} task={task} deleteToDo={deleteToDo} />;
+					return (
+						<ToDo key={task} task={task} deleteToDo={deleteToDo} editTodo={editTodo} />
+					);
 				})}
 			</div>
 		</>
