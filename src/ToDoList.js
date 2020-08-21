@@ -3,26 +3,27 @@ import NewToDoForm from "./NewToDoForm";
 import ToDo from "./ToDo";
 
 const ToDoList = () => {
-	const savedList =
-		localStorage.getItem("toDoList") === null ? [] : localStorage.getItem("toDoList");
-	console.log("parsed ", JSON.parse(savedList));
+	const savedList = localStorage.getItem("toDoList");
 
-	const [toDoList, setToDoList] = useState(JSON.parse(savedList));
+	const [toDoList, setToDoList] = useState(JSON.parse(savedList) || []);
 
 	const addToDo = async (newToDo) => {
-		setToDoList((toDoList) => [...toDoList, newToDo]);
-
 		localStorage.setItem("toDoList", JSON.stringify([...toDoList, newToDo]));
+		setToDoList((toDoList) => [...toDoList, newToDo]);
 	};
 
-	const deleteToDo = (task) => {
-		setToDoList((listOfTodos) => {
+	const deleteToDo = async (task) => {
+		localStorage.setItem(
+			"toDoList",
+			JSON.stringify(toDoList.filter((todo) => todo.task !== task))
+		);
+		await setToDoList((listOfTodos) => {
 			return listOfTodos.filter((todo) => todo.task !== task);
 		});
 	};
 
-	const editTodo = (task, updatedTask) => {
-		setToDoList((listOfTodos) => {
+	const editTodo = async (task, updatedTask) => {
+		await setToDoList((listOfTodos) => {
 			return listOfTodos.map((todo) => {
 				if (todo.task === task) {
 					todo.task = updatedTask;
@@ -30,6 +31,7 @@ const ToDoList = () => {
 				return todo;
 			});
 		});
+		localStorage.setItem("toDoList", JSON.stringify(toDoList));
 	};
 
 	return (
