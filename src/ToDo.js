@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import ToDoList from "./ToDoList";
+import "./ToDo.css";
 
 const ToDo = ({ task, deleteToDo, editTodo }) => {
 	const [editTask, setEditTask] = useState(task);
 	const [isEditing, setIsEditing] = useState(false);
+	const [isComplete, setIsComplete] = useState(false);
 
 	const handleChange = (e) => {
 		setEditTask(e.target.value);
@@ -19,8 +21,14 @@ const ToDo = ({ task, deleteToDo, editTodo }) => {
 		setIsEditing(false);
 	};
 
+	const toggleComplete = () => {
+		setIsComplete((val) => !val);
+	};
+
+	const completeClass = isComplete ? " ToDo completed" : "ToDo";
+
 	let display = (
-		<div className="ToDo">
+		<div className={completeClass} onClick={toggleComplete}>
 			{task}
 			<button
 				className="ToDo-delete"
@@ -33,15 +41,16 @@ const ToDo = ({ task, deleteToDo, editTodo }) => {
 			<button className="ToDo-edit" onClick={toggleEdit}>
 				Edit
 			</button>
+			<button className="ToDo-complete">Mark Complete</button>
 		</div>
 	);
 
 	if (isEditing) {
 		display = (
-			<div>
+			<div className="ToDo">
 				<form onSubmit={handleUpdate}>
 					<input type="text" value={editTask} onChange={handleChange} />
-					<button>Update!</button>
+					<button className="ToDo-update">Update!</button>
 				</form>
 			</div>
 		);

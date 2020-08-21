@@ -1,0 +1,33 @@
+.completed {
+	text-decoration: line-through;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.ToDo {
+	margin: 5px 5px;
+	animation: fadeIn ease-in 1s;
+}
+
+.ToDo button {
+	margin-left: 5px;
+}
+
+.ToDo-delete {
+	background-color: rgb(255, 138, 138);
+}
+
+.ToDo-edit {
+	background-color: lightgreen;
+}
+
+.ToDo-complete {
+	background-color: rgb(68, 202, 255);
+}
