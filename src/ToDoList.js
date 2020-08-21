@@ -3,10 +3,16 @@ import NewToDoForm from "./NewToDoForm";
 import ToDo from "./ToDo";
 
 const ToDoList = () => {
-	const [toDoList, setToDoList] = useState([]);
+	const savedList =
+		localStorage.getItem("toDoList") === null ? [] : localStorage.getItem("toDoList");
+	console.log("parsed ", JSON.parse(savedList));
 
-	const addToDo = (newToDo) => {
+	const [toDoList, setToDoList] = useState(JSON.parse(savedList));
+
+	const addToDo = async (newToDo) => {
 		setToDoList((toDoList) => [...toDoList, newToDo]);
+
+		localStorage.setItem("toDoList", JSON.stringify([...toDoList, newToDo]));
 	};
 
 	const deleteToDo = (task) => {
